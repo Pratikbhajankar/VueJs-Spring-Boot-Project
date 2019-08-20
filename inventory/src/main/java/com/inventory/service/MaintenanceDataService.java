@@ -2,6 +2,7 @@ package com.inventory.service;
 
 
 import com.inventory.dto.MaintenanceDataDTO;
+import com.inventory.dto.PrintAbleMaintenanceDTO;
 import com.inventory.dto.UpdateBatteryStatusDTO;
 import com.inventory.model.MaintenanceData;
 
@@ -15,4 +16,5 @@ public interface MaintenanceDataService {
   MaintenanceDataDTO transformMaintenanceData(MaintenanceData maintenanceData);
   MaintenanceData findOne(Long id);
   void updateBatteryStatus(List<UpdateBatteryStatusDTO> batteryStatusDTOS);
+  PrintAbleMaintenanceDTO getPrintAbleData(Long id);
 }

@@ -63,4 +63,6 @@ public class MaintenanceDetailData {
   @Transient
   private String CheckOutDate;
 
+  @Transient
+  private String totalServiceCharges;
 }

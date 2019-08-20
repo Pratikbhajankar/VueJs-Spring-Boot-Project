@@ -61,6 +61,12 @@ import java.util.stream.Collectors;
     };
   }
 
+  @GetMapping("/print/{id}")
+  public Callable<ResponseEntity<?>> getPrintAbleData(@PathVariable Long id){
+    return () -> ResponseEntity.ok(maintenanceDataService
+        .getPrintAbleData(id));
+  }
+
   private List<MaintenanceDataDTO> transformMaintenanceData(
       List<MaintenanceData> maintenanceDataList) {
     return maintenanceDataList.stream().map(maintenanceDataService::transformMaintenanceData)

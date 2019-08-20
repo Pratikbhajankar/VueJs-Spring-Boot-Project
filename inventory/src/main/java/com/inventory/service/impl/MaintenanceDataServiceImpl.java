@@ -2,6 +2,8 @@ package com.inventory.service.impl;
 
 import com.inventory.config.ApplicationConfigurationProperties;
 import com.inventory.dto.MaintenanceDataDTO;
+import com.inventory.dto.PrintAbleMaintenanceDTO;
+import com.inventory.dto.PrintAbleMaintenanceDetailDataDTO;
 import com.inventory.dto.UpdateBatteryStatusDTO;
 import com.inventory.model.BatteryStatus;
 import com.inventory.model.MaintenanceData;
@@ -115,9 +117,7 @@ import java.util.stream.Collectors;
                 data.getBatteryOutDate() :
                 ZonedDateTime.now();
             final Long days = CommonUtils.dayDiff(data.getBatteryInDate(), endDate);
-            return days ==  0 ?
-                data.getServiceCharges() :
-                data.getServiceCharges() * (days + 1 * 1.0);
+            return data.getServiceCharges() * (days + 1 * 1.0);
           }).mapToDouble(Double::doubleValue).sum();
 
       final double totalChargingCharges = maintenanceData.getMaintenanceDetailData().stream().
@@ -139,6 +139,12 @@ import java.util.stream.Collectors;
               .dateToString(maintenanceDetailData.getBatteryOutDate(),
                   configurationProperties.getDateFormat()));
         }
+
+        final ZonedDateTime endDate = maintenanceDetailData.getBatteryOutDate() != null ?
+            maintenanceDetailData.getBatteryOutDate() :
+            ZonedDateTime.now();
+        final Long days = CommonUtils.dayDiff(maintenanceDetailData.getBatteryInDate(), endDate);
+        maintenanceDetailData.setTotalServiceCharges(maintenanceDetailData.getServiceCharges()+"x"+(days + 1));
       });
       builder.maintenanceDetailData(maintenanceData.getMaintenanceDetailData());
     }
@@ -188,5 +194,43 @@ import java.util.stream.Collectors;
       }
     });
     maintenanceDetailDataRepository.saveAll(allDetailData);
+  }
+
+  @Override public PrintAbleMaintenanceDTO getPrintAbleData(Long id) {
+    final Optional<MaintenanceData> maintenanceDataOptional = maintenanceDataRepository
+        .findById(id);
+    final MaintenanceData maintenanceData = maintenanceDataOptional
+        .orElseThrow(() -> new RuntimeException("No Data found for id" + id));
+
+    final List<PrintAbleMaintenanceDetailDataDTO> maintenanceDetailDataDTOS = maintenanceData
+        .getMaintenanceDetailData().stream().map(maintenanceDetailData -> {
+          final PrintAbleMaintenanceDetailDataDTO.PrintAbleMaintenanceDetailDataDTOBuilder builder = PrintAbleMaintenanceDetailDataDTO
+              .builder();
+          builder.batteryStatus(maintenanceDetailData.getBatteryStatus());
+          builder.batteryType(maintenanceDetailData.getBatteryType());
+          builder.serialNumberCode(maintenanceDetailData.getSerialNumberCode());
+          builder.batteryVendor(maintenanceDetailData.getBatteryVendor());
+          builder.serviceCharges(maintenanceDetailData.getServiceCharges());
+          if (!Objects.isNull(maintenanceDetailData.getBatteryInDate())) {
+            builder.checkInDate(CommonUtils.dateToString(maintenanceDetailData.getBatteryInDate(),
+                configurationProperties.getDateFormatWithTime()));
+          }
+          if (!Objects.isNull(maintenanceDetailData.getBatteryOutDate())) {
+            builder.CheckOutDate(CommonUtils.dateToString(maintenanceDetailData.getBatteryOutDate(),
+                configurationProperties.getDateFormatWithTime()));
+          }
+          ZonedDateTime endDate = maintenanceDetailData.getBatteryOutDate() != null ?
+              maintenanceDetailData.getBatteryOutDate() :
+              ZonedDateTime.now();
+          final Long days = CommonUtils.dayDiff(maintenanceDetailData.getBatteryInDate(), endDate);
+          builder.currentServiceCharges(days == 0 ?
+              maintenanceDetailData.getServiceCharges() :
+              maintenanceDetailData.getServiceCharges() * (days + 1 * 1.0));
+          return builder.build();
+        }).collect(Collectors.toList());
+    return PrintAbleMaintenanceDTO.builder().name(maintenanceData.getName())
+        .maintenanceDetailDataDTOS(maintenanceDetailDataDTOS).todayDate(
+            CommonUtils.dateToString(ZonedDateTime.now(), configurationProperties.getDateFormat()))
+        .vehicleNumber(maintenanceData.getVehicleNumber()).build();
   }
 }
