@@ -52,13 +52,14 @@
                         <br/><br/><br/>
                     </div>
                     <div class="col-sm-12 col-12 col-lg-12 col-md-12 col-xl-12 row">
-                        <div class="col-sm-2 col-2 col-lg-2 col-md-2 col-xl-2">Date</div>
+                        <div class="col-sm-2 col-2 col-lg-2 col-md-2 col-xl-2">
+                           Date
+                        </div>
                         <div class="col-sm-3 col-3 col-lg-3 col-md-3 col-xl-3">
 
                             <input type="text" id="check-in-date" class="form-control ds-input"
                                    readonly
                                    placeholder="DD/MM/YYYY" v-model="uiData.date"/>
-
                         </div>
                         <div class="col-sm-2 col-2 col-lg-2 col-md-2 col-xl-2">Name</div>
                         <div class="col-sm-4 col-4 col-lg-4 col-md-4 col-xl-4">
@@ -102,12 +103,14 @@
                         <div class="col-sm-11 col-11 col-lg-11 col-md-11 col-xl-11 row border rounded mb-2 p-2">
                             <div class="col-sm-12 col-12 col-lg-12 col-md-12 col-xl-12 row">
                                 <div class="col-sm-3 col-3 col-lg-3 col-md-3 col-xl-3">
-                                    Battery Make&nbsp;:&nbsp;&nbsp;<input type="text" class="form-control ds-input"
-                                                         v-model="data.vendor"/>
+                                    Battery Make&nbsp;:&nbsp;&nbsp;<input type="text"
+                                                                          class="form-control ds-input"
+                                                                          v-model="data.vendor"/>
                                 </div>
                                 <div class="col-sm-3 col-3 col-lg-3 col-md-3 col-xl-3">
-                                    Battery Type&nbsp;:&nbsp;&nbsp;<input type="text" class="form-control ds-input"
-                                                                           v-model="data.batteryType"/>
+                                    Battery Type&nbsp;:&nbsp;&nbsp;<input type="text"
+                                                                          class="form-control ds-input"
+                                                                          v-model="data.batteryType"/>
                                 </div>
                                 <div class="col-sm-3 col-3 col-lg-3 col-md-3 col-xl-3">
                                     Charging Charges&nbsp;:&nbsp;&nbsp;
@@ -122,7 +125,8 @@
                             </div>
 
                             <div class="col-sm-12 col-12 col-lg-12 col-md-12 col-xl-12 row">
-                                <div class="col-sm-3 col-3 col-lg-3 col-md-3 col-xl-3" style="padding-top: 20px;">
+                                <div class="col-sm-3 col-3 col-lg-3 col-md-3 col-xl-3"
+                                     style="padding-top: 20px;">
                                     <span>Is service Battery Is given ?</span>
                                     <label class="container-checkbox">
                                         <input type="checkbox" checked="checked"
@@ -190,7 +194,7 @@
                 </div>
                 <br/>
                 <br/>
-                <table class="table">
+                <table class="table table-striped ">
                     <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -348,7 +352,8 @@
                                         Battery Charging Charges&nbsp;:&nbsp;&nbsp;{{modelData.totalChargingCharges}}
                                     </div>
                                     <div class="col-sm-4 col-4 col-lg-4 col-md-4 col-xl-4">
-                                        Total Amount&nbsp;:&nbsp;&nbsp;{{modelData.totalAmount}}<br/>
+                                        Total
+                                        Amount&nbsp;:&nbsp;&nbsp;{{modelData.totalAmount}}<br/>
                                     </div>
                                     <div class="col-sm-4 col-4 col-lg-4 col-md-4 col-xl-4">
                                         Balance Amount&nbsp;:&nbsp;&nbsp;{{modelData.balanceAmount}}<br/>
@@ -356,10 +361,10 @@
                                 </div>
                             </div>
                             <br/>
-                            <div class="row" v-for="(data,index) in modelData.maintenanceDetailData"
+                            <div class="row " v-for="(data,index) in modelData.maintenanceDetailData"
                                  :key="index">
                                 <div class="col-sm-12 col-12 col-lg-12 col-md-12 col-xl-12">
-                                    <div class="row border rounded mb-2 p-2">
+                                    <div class="row border rounded mb-2 p-2 alert-success">
                                         <div class="col-sm-12 col-12 col-lg-12 col-md-12 col-xl-12 row">
                                             <div class="col-sm-3 col-3 col-lg-3 col-md-3 col-xl-3">
                                                 Battery Make&nbsp;:&nbsp;&nbsp;{{data.batteryVendor}}

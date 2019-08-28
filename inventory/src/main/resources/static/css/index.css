@@ -123,3 +123,7 @@ th.active .arrow.dsc {
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
 }
+
+.alert-success{
+    color: #171717 !important;
+}
